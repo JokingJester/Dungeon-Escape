@@ -45,10 +45,8 @@ public class Player : MonoBehaviour
 
     private void FlipPlayerSprite(float input)
     {
-        if (input > 0)
-            _renderer.flipX = false;
-        else if (input < 0)
-            _renderer.flipX = true;
+        if (input != 0)
+            _renderer.flipX = input < 0 ? true : false;
     }
 
     bool IsGrounded()
