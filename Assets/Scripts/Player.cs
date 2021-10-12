@@ -7,10 +7,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private LayerMask _groundLayer;
+
+    private PlayerAnimation _playerAnim;
     private Rigidbody2D _rb;
 
     void Start()
     {
+        _playerAnim = GetComponent<PlayerAnimation>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
@@ -22,6 +25,7 @@ public class Player : MonoBehaviour
     private void Movement()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
+        _playerAnim.Move(horizontalInput);
         _rb.velocity = new Vector2(horizontalInput * _speed, _rb.velocity.y);
         if (Input.GetKey(KeyCode.Space) && IsGrounded() == true)
         {
