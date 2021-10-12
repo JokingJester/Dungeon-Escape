@@ -32,11 +32,18 @@ public class Player : MonoBehaviour
         {
             _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
         }
-        _playerAnim.Move(horizontalInput);
-        FlipSprite(horizontalInput);
+        ControlPlayerSpriteAndAnimations(horizontalInput);
     }
 
-    private void FlipSprite(float input)
+    private void ControlPlayerSpriteAndAnimations(float input)
+    {
+        FlipPlayerSprite(input);
+        _playerAnim.Move(input);
+        bool isJumping = !IsGrounded();
+        _playerAnim.Jump(isJumping);
+    }
+
+    private void FlipPlayerSprite(float input)
     {
         if (input > 0)
             _renderer.flipX = false;
