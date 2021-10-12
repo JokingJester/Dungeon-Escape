@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        CheckForAttack();
     }
 
     private void Movement()
@@ -33,6 +34,12 @@ public class Player : MonoBehaviour
             _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
         }
         ControlPlayerSpriteAndAnimations(horizontalInput);
+    }
+
+    private void CheckForAttack()
+    {
+        if (Input.GetMouseButtonDown(0) && IsGrounded() == true)
+            _playerAnim.Attack();
     }
 
     private void ControlPlayerSpriteAndAnimations(float input)
