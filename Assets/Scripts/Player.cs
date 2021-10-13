@@ -11,12 +11,14 @@ public class Player : MonoBehaviour
     private PlayerAnimation _playerAnim;
     private Rigidbody2D _rb;
     private SpriteRenderer _renderer;
+    private SpriteRenderer _swordArc;
 
     void Start()
     {
         _playerAnim = GetComponent<PlayerAnimation>();
         _rb = GetComponent<Rigidbody2D>();
         _renderer = GetComponentInChildren<SpriteRenderer>();
+        _swordArc = transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -54,6 +56,23 @@ public class Player : MonoBehaviour
     {
         if (input != 0)
             _renderer.flipX = input < 0 ? true : false;
+
+        if(_renderer.flipX == true)
+        {
+            _swordArc.flipX = true;
+            _swordArc.flipY = true;
+            Vector3 newPosition = _swordArc.transform.localPosition;
+            newPosition.x = -1.01f;
+            _swordArc.transform.localPosition = newPosition;
+        }
+        else
+        {
+            _swordArc.flipX = false;
+            _swordArc.flipY = false;
+            Vector3 newPosition = _swordArc.transform.localPosition;
+            newPosition.x = 1.01f;
+            _swordArc.transform.localPosition = newPosition;
+        }
     }
 
     bool IsGrounded()
