@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private Animator _anim;
+    [SerializeField]private Animator _anim;
+    [SerializeField]private Animator _swordArcAnim;
 
     void Start()
     {
         _anim = GetComponentInChildren<Animator>();
+        _swordArcAnim = transform.GetChild(1).GetComponent<Animator>();
     }
 
     public void Move(float input)
@@ -24,5 +26,6 @@ public class PlayerAnimation : MonoBehaviour
     public void Attack()
     {
         _anim.SetTrigger("Attack");
+        _swordArcAnim.SetTrigger("SwordAnimation");
     }
 }
