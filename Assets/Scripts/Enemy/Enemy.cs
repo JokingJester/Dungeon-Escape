@@ -9,10 +9,52 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int gems;
     [SerializeField] protected Transform pointA, pointB;
 
+    protected Animator anim;
+    protected bool canFlipSprite;
+    protected Transform targetPosition;
+    protected SpriteRenderer spriteRenderer;
+
+    public virtual void Init()
+    {
+        anim = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        targetPosition = pointA;
+    }
+
+    private void Start()
+    {
+        Init();
+    }
+
+    public virtual void Update()
+    {
+        Movement();
+    }
+
+    public virtual void Movement()
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") == true)
+            return;
+
+        if (canFlipSprite == true)
+        {
+            canFlipSprite = false;
+            spriteRenderer.flipX = !spriteRenderer.flipX;
+        }
+
+        float distance = Vector2.Distance(transform.position, targetPosition.position);
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition.position, speed * Time.deltaTime);
+
+        if (distance < 1)
+        {
+            targetPosition = spriteRenderer.flipX == true ? targetPosition = pointB : targetPosition = pointA;
+            anim.SetTrigger("Idle");
+            canFlipSprite = true;
+        }
+    }
+
     protected virtual void Attack()
     {
 
     }
-
-    public abstract void Update();
 }
