@@ -45,7 +45,7 @@ public abstract class Enemy : MonoBehaviour
         float distance = Vector2.Distance(transform.position, targetPosition.position);
         transform.position = Vector2.MoveTowards(transform.position, targetPosition.position, speed * Time.deltaTime);
 
-        if (distance < 1)
+        if (distance < 0.3f)
         {
             targetPosition = spriteRenderer.flipX == true ? targetPosition = pointB : targetPosition = pointA;
             anim.SetTrigger("Idle");
