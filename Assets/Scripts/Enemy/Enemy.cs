@@ -11,6 +11,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Animator anim;
     protected bool canFlipSprite;
+    protected bool isHit;
     protected Transform targetPosition;
     protected SpriteRenderer spriteRenderer;
 
@@ -33,7 +34,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Movement()
     {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") == true)
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") == true || isHit == true)
             return;
 
         if (canFlipSprite == true)
