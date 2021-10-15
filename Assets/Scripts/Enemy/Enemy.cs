@@ -8,6 +8,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected int gems;
     [SerializeField] protected Transform pointA, pointB;
+    protected Transform player;
 
     protected Animator anim;
     protected bool canFlipSprite;
@@ -17,6 +18,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Init()
     {
+        player = GameObject.Find("Player").transform;
         anim = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         targetPosition = pointA;
@@ -34,6 +36,16 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Movement()
     {
+        if (isHit == true)
+        {
+            float playerDistance = Vector2.Distance(transform.position, player.transform.position);
+            if (playerDistance > 3)
+            {
+                isHit = false;
+                anim.SetBool("InCombat", false);
+            }
+        }
+
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") == true || isHit == true)
             return;
 
