@@ -13,6 +13,8 @@ public abstract class Enemy : MonoBehaviour
     protected Animator anim;
     protected bool canFlipSprite;
     protected bool isHit;
+    protected bool resetSpriteRendererFlip;
+    protected bool spriteRendererFlipStatus;
     protected Transform targetPosition;
     protected SpriteRenderer spriteRenderer;
 
@@ -39,15 +41,21 @@ public abstract class Enemy : MonoBehaviour
         if (isHit == true)
         {
             float playerDistance = Vector2.Distance(transform.position, player.transform.position);
-            if (playerDistance > 3)
+            if (playerDistance > 3 && anim.GetCurrentAnimatorStateInfo(0).IsName("Attack") == false)
             {
                 isHit = false;
                 anim.SetBool("InCombat", false);
             }
         }
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") == true || isHit == true)
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") == true)
             return;
+
+        if (resetSpriteRendererFlip == true)
+        {
+            resetSpriteRendererFlip = false;
+            spriteRenderer.flipX = spriteRendererFlipStatus;
+        }
 
         if (canFlipSprite == true)
         {
@@ -56,7 +64,8 @@ public abstract class Enemy : MonoBehaviour
         }
 
         float distance = Vector2.Distance(transform.position, targetPosition.position);
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition.position, speed * Time.deltaTime);
+        if (isHit == false)
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition.position, speed * Time.deltaTime);
 
         if (distance < 0.3f)
         {
