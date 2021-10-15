@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _renderer;
     private SpriteRenderer _swordArc;
+
+    public int Health { get; set; }
 
     void Start()
     {
@@ -81,5 +83,10 @@ public class Player : MonoBehaviour
         if (raycast == true)
             return true;
         return false;
+    }
+
+    public void Damage()
+    {
+        Debug.Log("My Leg");
     }
 }
