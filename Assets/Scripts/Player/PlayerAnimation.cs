@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    [SerializeField]private Animator _anim;
-    [SerializeField]private Animator _swordArcAnim;
+    private Animator _anim;
+    private Animator _swordArcAnim;
 
     void Start()
     {
