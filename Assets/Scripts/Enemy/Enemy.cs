@@ -8,13 +8,12 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected int gems;
     [SerializeField] protected Transform pointA, pointB;
-    protected Transform player;
 
     protected Animator anim;
     protected bool canFlipSprite;
-    protected bool isHit;
-    protected bool resetSpriteRendererFlip;
-    protected bool spriteRendererFlipStatus;
+    protected bool changeSpriteToOriginalFlipDirection;
+    protected bool spriteRendererFlipDirection;
+    protected Transform player;
     protected Transform targetPosition;
     protected SpriteRenderer spriteRenderer;
 
@@ -38,37 +37,45 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Movement()
     {
-        if (isHit == true)
+        //Flips sprite in the players direction in combat mode.
+        var playerDirection = transform.position - player.position;
+        if (anim.GetBool("InCombat") == true)
         {
+            if (changeSpriteToOriginalFlipDirection == false)
+            {
+                changeSpriteToOriginalFlipDirection = true;
+                spriteRendererFlipDirection = spriteRenderer.flipX;
+            }
+            spriteRenderer.flipX = playerDirection.x < 0 ? false : true;
+
+            //Disables combat mode when the player is far away
             float playerDistance = Vector2.Distance(transform.position, player.transform.position);
             if (playerDistance > 3 && anim.GetCurrentAnimatorStateInfo(0).IsName("Attack") == false)
-            {
-                isHit = false;
                 anim.SetBool("InCombat", false);
-            }
         }
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") == true)
-            return;
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") == true || anim.GetBool("InCombat") == true)
+            return;//Doesn't run any code below when it is idle or in combat mode
 
-        if (resetSpriteRendererFlip == true)
+        if (changeSpriteToOriginalFlipDirection == true)//Flips sprite in the direction it was in before combat mode
         {
-            resetSpriteRendererFlip = false;
-            spriteRenderer.flipX = spriteRendererFlipStatus;
+            changeSpriteToOriginalFlipDirection = false;
+            spriteRenderer.flipX = spriteRendererFlipDirection;
         }
 
-        if (canFlipSprite == true)
+        if (canFlipSprite == true)//Flips sprite in other direction after being idle
         {
             canFlipSprite = false;
             spriteRenderer.flipX = !spriteRenderer.flipX;
         }
 
         float distance = Vector2.Distance(transform.position, targetPosition.position);
-        if (isHit == false)
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition.position, speed * Time.deltaTime);
+        //Moves the enemy
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition.position, speed * Time.deltaTime);
 
         if (distance < 0.3f)
         {
+            //Sets the position to walk to based on how the sprite is flipped
             targetPosition = spriteRenderer.flipX == true ? targetPosition = pointB : targetPosition = pointA;
             anim.SetTrigger("Idle");
             canFlipSprite = true;
