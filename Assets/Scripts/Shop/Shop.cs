@@ -62,6 +62,11 @@ public class Shop : MonoBehaviour
                     _player.UnlockBootsOfFlight(400);
                 break;
             case 2:
+                if(_player.diamonds >= 100 && GameManager.Instance.HasKeyToCastle == false)
+                {
+                    _player.diamonds -= 100;
+                    GameManager.Instance.HasKeyToCastle = true;
+                }
                 break;
         }
         UIManager.Instance.OpenShop(_player.diamonds);
