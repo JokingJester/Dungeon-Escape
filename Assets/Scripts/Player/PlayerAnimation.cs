@@ -23,8 +23,9 @@ public class PlayerAnimation : MonoBehaviour
         _anim.SetBool("Jumping", jumping);
     }
 
-    public void Attack()
+    public void Attack(bool hasFireSword)
     {
+        _anim.SetBool("HasFireSword", hasFireSword);
         _anim.SetTrigger("Attack");
         _swordArcAnim.SetTrigger("SwordAnimation");
     }

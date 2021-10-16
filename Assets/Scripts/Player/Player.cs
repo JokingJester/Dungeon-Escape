@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, IDamageable
     private SpriteRenderer _swordArc;
 
     public int Health { get; set; }
+    public bool _unlockedFireSword;
 
     void Start()
     {
@@ -43,7 +44,9 @@ public class Player : MonoBehaviour, IDamageable
     private void CheckForAttack()
     {
         if (Input.GetMouseButtonDown(0) && IsGrounded() == true)
-            _playerAnim.Attack();
+        {
+            _playerAnim.Attack(_unlockedFireSword);
+        }
     }
 
     private void ControlPlayerSpriteAndAnimations(float input)
@@ -98,9 +101,24 @@ public class Player : MonoBehaviour, IDamageable
         Debug.Log("My Leg");
     }
 
-    public void UnlockBootsOfFlight()
+    public void UnlockBootsOfFlight(int gemCost)
     {
-        _unlockedBootsOfFlight = true;
+        if(_unlockedBootsOfFlight == false)
+        {
+            diamonds -= gemCost;
+            _unlockedBootsOfFlight = true;
+        }
+    }
+
+    public void UnlockFireSword(int gemCost)
+    {
+        if(_unlockedFireSword == false)
+        {
+            diamonds -= gemCost;
+            _unlockedFireSword = true;
+            //Adds another attack script to the hitbox gameobject
+            gameObject.transform.GetChild(0).transform.GetChild(0).gameObject.AddComponent<Attack>();
+        }
     }
 
     private void Jumping()

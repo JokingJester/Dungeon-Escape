@@ -54,13 +54,12 @@ public class Shop : MonoBehaviour
         switch (_selectedItem)
         {
             case 0:
+                if(_player.diamonds >= 200)
+                    _player.UnlockFireSword(200);
                 break;
             case 1:
                 if(_player.diamonds >= 400)
-                {
-                    _player.UnlockBootsOfFlight();
-                    _player.diamonds -= 400;
-                }
+                    _player.UnlockBootsOfFlight(400);
                 break;
             case 2:
                 break;
