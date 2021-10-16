@@ -14,6 +14,11 @@ public class Spider : Enemy, IDamageable
         //Spider Does Not Move
     }
 
+    public override void Update()
+    {
+        
+    }
+
     public void Attack()
     {
         Instantiate(_acidPrefab, _acidSpawnLocation.position, transform.rotation);
