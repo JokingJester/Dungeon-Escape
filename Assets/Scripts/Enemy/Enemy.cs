@@ -12,6 +12,7 @@ public abstract class Enemy : MonoBehaviour
     protected Animator anim;
     protected bool canFlipSprite;
     protected bool changeSpriteToOriginalFlipDirection;
+    protected bool isDead;
     protected bool spriteRendererFlipDirection;
     protected Transform player;
     protected Transform targetPosition;
@@ -32,7 +33,8 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Update()
     {
-        Movement();
+        if(isDead == false)
+            Movement();
     }
 
     public virtual void Movement()
