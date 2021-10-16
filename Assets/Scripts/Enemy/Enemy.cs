@@ -81,9 +81,4 @@ public abstract class Enemy : MonoBehaviour
             canFlipSprite = true;
         }
     }
-
-    protected virtual void Attack()
-    {
-
-    }
 }

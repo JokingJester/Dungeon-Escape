@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 916825086841750093}
   - component: {fileID: 8967629335508747981}
   - component: {fileID: 8763806439240233490}
+  - component: {fileID: 1607070080858123545}
+  - component: {fileID: -9131194739092366137}
   m_Layer: 0
   m_Name: Acid
   m_TagString: Untagged
@@ -103,3 +105,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &1607070080858123545
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5342408753089910291}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.018857956, y: 0.012572944}
+  serializedVersion: 2
+  m_Radius: 0.22548866
+--- !u!114 &-9131194739092366137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5342408753089910291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b41dfe63dd5564c917bcc756790335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 3
