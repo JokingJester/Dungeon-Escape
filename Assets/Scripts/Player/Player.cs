@@ -10,6 +10,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float _jumpForce;
     [SerializeField] private LayerMask _groundLayer;
 
+    private bool _unlockedBootsOfFlight;
     private PlayerAnimation _playerAnim;
     private Rigidbody2D _rb;
     private SpriteRenderer _renderer;
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour, IDamageable
     void Update()
     {
         Movement();
+        Jumping();
         CheckForAttack();
     }
 
@@ -35,10 +37,6 @@ public class Player : MonoBehaviour, IDamageable
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         _rb.velocity = new Vector2(horizontalInput * _speed, _rb.velocity.y);
-        if (Input.GetKey(KeyCode.Space) && IsGrounded() == true)
-        {
-            _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
-        }
         ControlPlayerSpriteAndAnimations(horizontalInput);
     }
 
@@ -87,8 +85,48 @@ public class Player : MonoBehaviour, IDamageable
         return false;
     }
 
+    bool TouchedCeiling()
+    {
+        bool raycast = Physics2D.Raycast(transform.position, Vector2.up, 1f, _groundLayer);
+        if (raycast == true)
+            return true;
+        return false;
+    }
+
     public void Damage()
     {
         Debug.Log("My Leg");
+    }
+
+    public void UnlockBootsOfFlight()
+    {
+        _unlockedBootsOfFlight = true;
+    }
+
+    private void Jumping()
+    {
+        if (Input.GetKey(KeyCode.Space) && IsGrounded() == true)
+        {
+            if (_unlockedBootsOfFlight == false)
+                _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+            else
+            {
+                _rb.velocity = new Vector2(_rb.velocity.x, 3);
+                _rb.isKinematic = true;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == false && _unlockedBootsOfFlight == true)
+        {
+            _rb.isKinematic = !_rb.isKinematic;
+            if (_rb.isKinematic == true)
+                _rb.velocity = new Vector2(_rb.velocity.x, 3);
+        }
+
+        if (TouchedCeiling() == true && _unlockedBootsOfFlight == true && IsGrounded() == false)
+        {
+            _rb.isKinematic = false;
+            _rb.velocity = new Vector2(_rb.velocity.x, -1);
+        }
     }
 }
