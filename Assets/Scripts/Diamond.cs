@@ -13,7 +13,7 @@ public class Diamond : MonoBehaviour
             Player player = collision.GetComponent<Player>();
             if(player != null)
             {
-                player.diamonds += value;
+                player.AddGems(value);
                 Destroy(this.gameObject);
             }
         }

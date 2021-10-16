@@ -70,5 +70,6 @@ public class Shop : MonoBehaviour
                 break;
         }
         UIManager.Instance.OpenShop(_player.diamonds);
+        UIManager.Instance.UpdateGemCount(_player.diamonds);
     }
 }

@@ -11,6 +11,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private LayerMask _groundLayer;
 
     private bool _unlockedBootsOfFlight;
+    private bool _isDead;
     private PlayerAnimation _playerAnim;
     private Rigidbody2D _rb;
     private SpriteRenderer _renderer;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour, IDamageable
 
     void Start()
     {
+        Health = 4;
         _playerAnim = GetComponent<PlayerAnimation>();
         _rb = GetComponent<Rigidbody2D>();
         _renderer = GetComponentInChildren<SpriteRenderer>();
@@ -29,6 +31,8 @@ public class Player : MonoBehaviour, IDamageable
 
     void Update()
     {
+        if (_isDead == true)
+            return;
         Movement();
         Jumping();
         CheckForAttack();
@@ -98,7 +102,14 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
-        Debug.Log("My Leg");
+        Health--;
+        UIManager.Instance.UpdateHealthBar(Health);
+        if(Health < 1)
+        {
+            _playerAnim.Death();
+            Destroy(this);
+            _isDead = true;
+        }
     }
 
     public void UnlockBootsOfFlight(int gemCost)
@@ -119,6 +130,12 @@ public class Player : MonoBehaviour, IDamageable
             //Adds another attack script to the hitbox gameobject
             gameObject.transform.GetChild(0).transform.GetChild(0).gameObject.AddComponent<Attack>();
         }
+    }
+
+    public void AddGems(int count)
+    {
+        diamonds += count;
+        UIManager.Instance.UpdateGemCount(diamonds);
     }
 
     private void Jumping()
