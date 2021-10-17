@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -40,14 +41,14 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Movement()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float horizontalInput = CrossPlatformInputManager.GetAxisRaw("Horizontal");
         _rb.velocity = new Vector2(horizontalInput * _speed, _rb.velocity.y);
         ControlPlayerSpriteAndAnimations(horizontalInput);
     }
 
     private void CheckForAttack()
     {
-        if (Input.GetMouseButtonDown(0) && IsGrounded() == true)
+        if (CrossPlatformInputManager.GetButtonDown("A_Button") && IsGrounded() == true)
         {
             _playerAnim.Attack(_unlockedFireSword);
         }
@@ -140,7 +141,7 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Jumping()
     {
-        if (Input.GetKey(KeyCode.Space) && IsGrounded() == true)
+        if (CrossPlatformInputManager.GetButton("B_Button") && IsGrounded() == true)
         {
             if (_unlockedBootsOfFlight == false)
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
