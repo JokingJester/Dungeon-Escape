@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
 
     public Text shopGemCountText;
     public Text hudGemCountText;
+    public Text adStatusText;
     public Image selectionImage;
     public GameObject[] lifeUnits;
 
@@ -73,5 +74,10 @@ public class UIManager : MonoBehaviour
                 lifeUnits[3].SetActive(true);
                 break;
         }
+    }
+
+    public void UpdateAdStatusText(string text)
+    {
+        adStatusText.text = text;
     }
 }

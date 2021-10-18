@@ -110,6 +110,7 @@ public class Player : MonoBehaviour, IDamageable
             _playerAnim.Death();
             Destroy(this);
             _isDead = true;
+            _speed = 0;
         }
     }
 
@@ -152,7 +153,7 @@ public class Player : MonoBehaviour, IDamageable
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == false && _unlockedBootsOfFlight == true)
+        if (CrossPlatformInputManager.GetButtonDown("B_Button") && IsGrounded() == false && _unlockedBootsOfFlight == true)
         {
             _rb.isKinematic = !_rb.isKinematic;
             if (_rb.isKinematic == true)
