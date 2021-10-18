@@ -6,8 +6,10 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected int health;
     [SerializeField] protected float speed;
+    [SerializeField] protected float attackRange;
     [SerializeField] protected int gems;
     [SerializeField] protected GameObject diamondPrefab;
+    [SerializeField] protected LayerMask playerLayerMask;
     [SerializeField] protected Transform pointA, pointB;
 
     protected Animator anim;
@@ -35,7 +37,10 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Update()
     {
         if(isDead == false)
+        {
             Movement();
+            AttackPlayer();
+        }
     }
 
     public virtual void Movement()
@@ -83,5 +88,17 @@ public abstract class Enemy : MonoBehaviour
             anim.SetTrigger("Idle");
             canFlipSprite = true;
         }
+    }
+
+    public virtual void AttackPlayer()
+    {
+        Vector2 raycastDirection = spriteRenderer.flipX == true ? raycastDirection = Vector2.left : raycastDirection = Vector2.right;
+        bool raycast = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y -0.4f), raycastDirection, attackRange, playerLayerMask);
+        if(raycast == true && anim.GetBool("InCombat") == false)
+        {
+            anim.SetBool("InCombat", true);
+            anim.SetTrigger("AttackPlayer");
+        }
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.4f), raycastDirection, Color.red);
     }
 }

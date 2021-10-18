@@ -19,6 +19,10 @@ public class Spider : Enemy, IDamageable
         
     }
 
+    public override void AttackPlayer()
+    {
+        
+    }
     public void Attack()
     {
         Instantiate(_acidPrefab, _acidSpawnLocation.position, transform.rotation);
