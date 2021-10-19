@@ -86,6 +86,7 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
     {
         // Clean up the button listeners:
         _showAdButton.onClick.RemoveAllListeners();
+        Advertisement.RemoveListener(this);
     }
 
     public void OnUnityAdsReady(string placementId)
