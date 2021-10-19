@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Win_Trigger : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class Win_Trigger : MonoBehaviour
         {
             if(GameManager.Instance.HasKeyToCastle == true)
             {
-                //main menu
+                SceneManager.LoadScene(0);
             }
             else
             {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -108,12 +109,11 @@ public class Player : MonoBehaviour, IDamageable
     {
         Health--;
         UIManager.Instance.UpdateHealthBar(Health);
-        if(Health < 1)
+        if(Health < 1 && _isDead == false)
         {
             _playerAnim.Death();
-            Destroy(this);
             _isDead = true;
-            _speed = 0;
+            StartCoroutine(RestartScene());
         }
     }
 
@@ -168,5 +168,11 @@ public class Player : MonoBehaviour, IDamageable
             _rb.isKinematic = false;
             _rb.velocity = new Vector2(_rb.velocity.x, -1);
         }
+    }
+
+    private IEnumerator RestartScene()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(1);
     }
 }
