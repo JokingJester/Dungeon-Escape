@@ -33,7 +33,10 @@ public class Player : MonoBehaviour, IDamageable
     void Update()
     {
         if (_isDead == true)
+        {
+            _speed = 0;
             return;
+        }
         Movement();
         Jumping();
         CheckForAttack();

@@ -7,6 +7,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int health;
     [SerializeField] protected float speed;
     [SerializeField] protected float attackRange;
+    [SerializeField] protected float yValue;
     [SerializeField] protected int gems;
     [SerializeField] protected GameObject diamondPrefab;
     [SerializeField] protected LayerMask playerLayerMask;
@@ -93,12 +94,11 @@ public abstract class Enemy : MonoBehaviour
     public virtual void AttackPlayer()
     {
         Vector2 raycastDirection = spriteRenderer.flipX == true ? raycastDirection = Vector2.left : raycastDirection = Vector2.right;
-        bool raycast = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y -0.4f), raycastDirection, attackRange, playerLayerMask);
+        bool raycast = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - yValue), raycastDirection, attackRange, playerLayerMask);
         if(raycast == true && anim.GetBool("InCombat") == false)
         {
             anim.SetBool("InCombat", true);
             anim.SetTrigger("AttackPlayer");
         }
-        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.4f), raycastDirection, Color.red);
     }
 }
