@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     public Text hudGemCountText;
     public Text adStatusText;
     public Image selectionImage;
+    public GameObject loadADPanel;
     public GameObject[] lifeUnits;
 
     private void Awake()
@@ -78,6 +79,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateAdStatusText(string text)
     {
+        loadADPanel.SetActive(true);
         adStatusText.text = text;
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Shop : MonoBehaviour
 {
     [SerializeField] private GameObject _shopUI;
+    [SerializeField] private GameObject _loadADPanel;
     public int _selectedItem;
     public Player _player;
 
@@ -35,6 +36,7 @@ public class Shop : MonoBehaviour
         if(collision.tag == "Player")
         {
             _shopUI.SetActive(false);
+            _loadADPanel.SetActive(false);
         }
     }
 
@@ -63,7 +65,10 @@ public class Shop : MonoBehaviour
         {
             case 0:
                 if(_player.diamonds >= 200)
+                {
+                    UIManager.Instance.UpdateAdStatusText("YOU UNLOCKED FLAME SWORD");
                     _player.UnlockFireSword(200);
+                }
                 break;
             case 1:
                 if(_player.diamonds >= 400)
@@ -72,6 +77,7 @@ public class Shop : MonoBehaviour
             case 2:
                 if(_player.diamonds >= 100 && GameManager.Instance.HasKeyToCastle == false)
                 {
+                    UIManager.Instance.UpdateAdStatusText("YOU UNLOCKED KEY TO CASTLE");
                     _player.diamonds -= 100;
                     GameManager.Instance.HasKeyToCastle = true;
                 }

@@ -9,7 +9,6 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
     [SerializeField] string _iOsAdUnitId = "Rewarded_iOS";
     [SerializeField] private Player _player;
     [SerializeField] private GameObject _loadAdMessage;
-    [SerializeField] private GameObject _exitButton;
     string _adUnitId;
     void Awake()
     {
@@ -25,6 +24,7 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
     // Load content to the Ad Unit:
     public void LoadAd()
     {
+        UIManager.Instance.UpdateAdStatusText("LOADING ADVERTISEMENT");
         _loadAdMessage.SetActive(true);
         // IMPORTANT! Only load content AFTER initialization (in this example, initialization is handled in a different script).
         Debug.Log("Loading Ad: " + _adUnitId);
@@ -113,15 +113,12 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
                 _player.UnlockBootsOfFlight(0);
                 break;
             case ShowResult.Failed:
-                UIManager.Instance.UpdateAdStatusText("The ad failed so you get NOTHING");
-                Debug.Log("Failed");
+                UIManager.Instance.UpdateAdStatusText("The ad failed");
                 break;
             case ShowResult.Skipped:
-                UIManager.Instance.UpdateAdStatusText("The ad was skipped. YOU GET NOTHING");
-                Debug.Log("Skipped");
+                UIManager.Instance.UpdateAdStatusText("The ad was skipped");
                 break;
         }
-        _exitButton.SetActive(true);
         Destroy(this);
     }
 }
